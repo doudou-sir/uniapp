@@ -289,3 +289,276 @@ export default defineConfig({
 })
 ~~~
 
+## 8. 修改 vite.config.js 文件则不需要重新运行也生效配置
+
+~~~bash
+pnpm i vite-plugin-restart -D
+~~~
+
+~~~ts
+import viteRestart from 'vite-plugin-restart'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [
+    viteRestart({
+      restart: ['vite.config.ts']
+    })
+  ]
+})
+
+// 额外配置
+import path from 'path'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  // 解析模块路径
+  resolve: {
+    // 别名
+    alias: {
+      // 将@解析为当前工作目录下的src文件夹
+      '@': path.join(process.cwd(), './src')
+    }
+  },
+  // 服务器配置
+  server: {
+    // 主机地址
+    host: '0.0.0.0',
+    // 开启hmr
+    hmr: true,
+    // 端口号
+    port: 7001,
+    // 自定义代理规则
+    proxy: {
+      // 选项写法
+      '/api': {
+        // 目标地址
+        target: 'http://localhost:6666',
+        // 是否改变源
+        changeOrigin: true,
+        // 重写路径
+        rewrite: path => path.replace(/^\/api/, '')
+      }
+    }
+  }
+})
+
+~~~
+
+## 9. vite.config.ts 额外配置
+
+~~~bash
+# 自动导出引入组件
+pnpm i unplugin-auto-import -D
+~~~
+
+~~~ts
+import autoImport from 'unplugin-auto-import/vite'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [
+    autoImport({
+      imports: ['vue'],
+      dts: 'src/auto-import.d.ts'
+    })
+  ],
+})
+~~~
+
+## 10. 创建自定义svg图标
+
+~~~bash
+pnpm i vite-plugin-svg-icons -D
+# 插件依赖
+pnpm install fast-glob -D
+# 将SVG文件加载为Vue组件
+pnpm i vite-svg-loader -D
+~~~
+
+~~~ts
+// 创建 src/icons 用于放置svg图标
+// vite-plugin-svg-icons 使用
+// 在vite.config.ts中配置插件
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+plugins: [
+    createSvgIconsPlugin({
+      // 指定 SVG图标 保存的文件夹路径
+      iconDirs: [path.resolve(process.cwd(), 'src/icons')],
+      // 指定 使用svg图标的格式
+      symbolId: 'icon-[dir]-[name]'
+    })
+  ]
+
+// 入口文件main.ts导入
+import 'virtual:svg-icons-register'
+// 在icons添加个svg图标
+~~~
+
+~~~vue
+<!-- 基本使用 pages/index/index.vue -->
+<template>
+  <view class="content">
+    <image class="logo" src="/static/logo.png" />
+    <view class="text-area">
+      <text class="title">{{ title }}</text>
+      <!-- svg:图标外层容器节点,内部需要与use标签结合使用 -->
+      <svg style="width: 50rpx; height: 50rpx">
+        <!-- 'xlink：href执行用哪一个图标,属性值务必icon-图标名字·' -->
+        <!-- use标签fi11属性可以设置图标的颜色 -->
+        <use xlink:href="#icon-message" fill="red"></use>
+      </svg>
+    </view>
+  </view>
+</template>
+~~~
+
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/78b86591f0ea423f92dd31db3303aa8e~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=128&h=164&s=2418&e=png&b=ffffff">
+
+~~~vue
+<!-- 将其封装成公共组件，创建 src/components，新建 DouIcon.vue -->
+<template>
+  <svg :class="douClass" :style="{ width: width, height: height }">
+    <use :xlink:href="prefix + name" :fill="color"></use>
+  </svg>
+</template>
+
+<script setup lang="ts">
+  defineProps({
+    prefix: {
+      type: String,
+      default: '#icon-'
+    },
+    name: {
+      type: String,
+      required: true
+    },
+    color: {
+      type: String,
+      default: 'currentColor'
+    },
+    width: {
+      type: String,
+      default: '1em'
+    },
+    height: {
+      type: String,
+      default: '1em'
+    },
+    // 添加一个自定义的类名属性
+    douClass: {
+      type: String,
+      default: 'dou-icon'
+    }
+  })
+</script>
+<style scoped>
+  .dou-icon {
+    vertical-align: -0.1em; /* 因icon大小被设置为和字体大小一致，而span等标签的下边缘会和字体的基线对齐，故需设置一个往下的偏移比例，来纠正视觉上的未对齐效果 */
+    fill: currentColor; /* 定义元素的颜色，currentColor是一个变量，这个变量的值就表示当前元素的color值，如果当前元素未设置color值，则从父元素继承 */
+    overflow: hidden;
+  }
+</style>
+~~~
+
+~~~ts
+// 全局注册方法，两种
+// 第一种：
+// 在components下新建 index.ts
+import DouIcon from './DouIcon.vue'
+import type { App, Component } from 'vue'
+const components: { [name: string]: Component } = { DouIcon }
+export default {
+  install(app: App) {
+    Object.keys(components).forEach((key: string) => {
+      app.component(key, components[key])
+    })
+  }
+}
+
+// 在main.ts引入src/index.ts文件,通过app.use方法安装自定义插件，把组件进行全局注册
+import { createSSRApp } from 'vue'
+import App from '@/App.vue'
+import gloablComponents from './components/index'
+import 'virtual:svg-icons-register'
+export function createApp() {
+  const app = createSSRApp(App)
+  app.use(gloablComponents)
+  return {
+    app
+  }
+}
+
+~~~
+
+~~~vue
+<!-- 使用 -->
+<dou-icon class="icon" name="message" width="50rpx" height="50rpx" />
+<!-- 如果颜色无法修改,可能是svg图标中的fill属性已设置并覆盖颜色 -->
+<!-- 图标默认样式 -->
+<style scope>
+  .svg-icon {
+    vertical-align: -0.1em; /* 因icon大小被设置为和字体大小一致，而span等标签的下边缘会和字体的基线对齐，故需设置一个往下的偏移比例，来纠正视觉上的未对齐效果 */
+    fill: currentColor; /* 定义元素的颜色，currentColor是一个变量，这个变量的值就表示当前元素的color值，如果当前元素未设置color值，则从父元素继承 */
+    overflow: hidden;
+  }
+</style>
+~~~
+
+~~~json
+// 第二种：
+// 在 pages.json 下配置
+"easycom": {
+    "autoscan": true,
+    "custom": {
+      "^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue",
+      // "^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+      "^dou-(.*)": "@/components/dou-$1.vue"
+    }
+  },
+~~~
+
+~~~ts
+// 在vite.config.ts中配置插件
+import svgLoader from 'vite-svg-loader'
+plugins: [
+    svgLoader()
+  ],
+
+// 特别注意,在env.d.ts 中配置这个,不然打包会报错
+/// <reference types="vite-svg-loader" />
+
+// 同时在tsconfig.json中也要声明下
+{
+  "compilerOptions": {
+    "types": [
+      "@dcloudio/types",
+      "vite-plugin-svg-icons/client",
+      "vite-svg-loader"
+    ]
+  }
+}
+~~~
+
+
+
+~~~vue
+<!-- 我觉得第二种其实更方便些,就是它用不了@路径 -->
+<template>
+  <view class="content">
+    <image class="logo" src="/static/logo.png" />
+    <view class="text-area">
+      <text class="title">{{ title }}</text>
+      <!-- <dou-icon name="message" /> -->
+      <MessComponent />
+    </view>
+  </view>
+</template>
+
+<script setup lang="ts">
+  import MessComponent from '../../icons/message.svg?component'
+  import { ref } from 'vue'
+  const title = ref('Hello')
+</script>
+~~~
+

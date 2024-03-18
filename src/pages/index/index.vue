@@ -3,11 +3,14 @@
     <image class="logo" src="/static/logo.png" />
     <view class="text-area">
       <text class="title">{{ title }}</text>
+      <!-- <dou-icon name="message" /> -->
+      <MessComponent />
     </view>
   </view>
 </template>
 
 <script setup lang="ts">
+  import MessComponent from '../../icons/message.svg?component'
   import { ref } from 'vue'
   const title = ref('Hello')
 </script>
@@ -19,7 +22,6 @@
     align-items: center;
     justify-content: center;
   }
-
   .logo {
     height: 200rpx;
     width: 200rpx;
@@ -28,7 +30,6 @@
     margin-right: auto;
     margin-bottom: 50rpx;
   }
-
   .text-area {
     display: flex;
     justify-content: center;
