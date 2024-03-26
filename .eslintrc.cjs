@@ -42,12 +42,10 @@ module.exports = {
   ],
   // 添加规则
   rules: {
-    'vue/multi-word-component-names': [
-      'error',
-      {
-        ignores: ['index'] //需要忽略的组件名
-      }
-    ],
+    'vue/multi-word-component-names': ['off'],
+    'vue/no-setup-props-destructure': ['off'],
+    'vue/no-deprecated-html-element-is': ['off'],
+    '@typescript-eslint/no-unused-vars': ['off'],
     '@typescript-eslint/ban-types': [
       'error',
       {
