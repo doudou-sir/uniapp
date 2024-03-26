@@ -848,5 +848,110 @@ store.use(
 export * from './modules/counter'
 
 export default store
+
+// main.ts
+import { createSSRApp } from 'vue'
+import App from '@/App.vue'
+// import gloablComponents from './components/index'
+import pinia from '@/stores'
+import 'virtual:svg-icons-register'
+export function createApp() {
+  const app = createSSRApp(App)
+  // app.use(gloablComponents)
+  app.use(pinia)
+  return {
+    app
+  }
+}
 ~~~
+
+# 13. scss 样式：
+
+~~~bash
+pnpm i sass sass-loader@10.1.1 -D
+~~~
+
+~~~scss
+// 静态文件建议都放在static下
+// styles/index.scss
+@import '@/uni.scss';
+@import '@/static/styles/common.scss';
+
+// styles/common.scss 放置全局公共类样式
+@import '@/uni.scss';
+
+page {
+  background-color: $uni-bg-color-grey;
+}
+
+.dou-btn-primary {
+  color: $uni-color-primary;
+}
+
+.dou-bg-primary {
+  background-color: $uni-bg-color-grey;
+  color: $uni-text-color;
+}
+
+// 初始化样式 base.scss
+view,
+navigator,
+input,
+scroll-view {
+  box-sizing: border-box;
+}
+
+button::after {
+  border: none;
+}
+
+swiper,
+scroll-view {
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+}
+
+image {
+  width: 100%;
+  height: 100%;
+  vertical-align: middle;
+}
+
+// 两行省略
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+~~~
+
+~~~vue
+// 在 App.vue 中引入index.scss
+<style lang="scss">
+  @import 'static/styles/index.scss';
+</style>
+~~~
+
+~~~ts
+// 在 vite.config.ts 引入全局
+css: {
+    preprocessorOptions: {
+      scss: {
+        // 全局 scss 变量
+        additionalData: `@import "~@/static/styles/index.scss";`
+      }
+    }
+  }
+
+// main.ts
+import '@/static/styles/index.scss'
+~~~
+
+
+
+
 

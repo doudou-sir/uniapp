@@ -69,5 +69,13 @@ export default defineConfig({
         rewrite: path => path.replace(/^\/api/, '')
       }
     }
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // 全局 scss 变量
+        additionalData: `@import "~@/static/styles/index.scss";`
+      }
+    }
   }
 })

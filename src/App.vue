@@ -10,4 +10,6 @@
     console.log('App Hide')
   })
 </script>
-<style></style>
+<style lang="scss">
+  @import 'static/styles/index.scss';
+</style>

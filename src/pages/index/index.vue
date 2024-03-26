@@ -1,6 +1,6 @@
 <template>
   <view class="content">
-    <image class="logo" src="/static/logo.png" />
+    <image class="logo" src="/static/images/appLogo.svg" />
     <view class="text-area">
       <text class="title">{{ title + counter.count }}</text>
       <button @click="counter.increment">+</button>
