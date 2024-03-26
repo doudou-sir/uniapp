@@ -11,11 +11,12 @@
       "dom"
     ],
     "types": [
-      "@dcloudio/types",
-      "vite-plugin-svg-icons/client",
-      "vite-svg-loader",
-      "@types/wechat-miniprogram",
-      "@uni-helper/uni-app-types"
+      "@dcloudio/types", // uni-app API 类型
+      // "vite-plugin-svg-icons/client",
+      // "vite-svg-loader",
+      "miniprogram-api-typings", // 微信小程序 API 类型
+      "@uni-helper/uni-app-types", // uni-app 组件类型
+      "@uni-helper/uni-ui-types" // uni-ui 组件类型
     ]
   },
   "vueCompilerOptions": {

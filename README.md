@@ -1023,6 +1023,54 @@ declare module 'uview-plus' {
 @import 'uview-plus/index.scss';
 ~~~
 
+# 15. uni-ui 使用：
+
+~~~bash
+pnpm i @dcloudio/uni-ui
+# 类型声明
+pnpm i -D @uni-helper/uni-ui-types
+# 微信小程序定义文件
+pnpm i -D miniprogram-api-typings
+# 删除 @types/wechat-miniprogram
+~~~
+
+~~~json
+// tsconfig.json
+{
+    "types": [
+      "@dcloudio/types", // uni-app API 类型
+      // "vite-plugin-svg-icons/client",
+      // "vite-svg-loader",
+      "miniprogram-api-typings", // 微信小程序 API 类型
+      "@uni-helper/uni-app-types", // uni-app 组件类型
+      "@uni-helper/uni-ui-types" // uni-ui 组件类型
+    ]
+  },
+  "vueCompilerOptions": {
+    "nativeTags": ["block", "template", "component", "slot"],
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "./auto-imports.d.ts"
+  ]
+}
+~~~
+
+~~~json
+// pages.json
+"custom": {
+      // uni-ui 组件
+			"^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue",
+      // uView 组件
+      "^up-(.*)": "uview-plus/components/u-$1/u-$1.vue",
+      // dou 自定义组件
+      "^dou-(.*)": "@/components/dou-$1.vue"
+    }
+~~~
+
 
 
 

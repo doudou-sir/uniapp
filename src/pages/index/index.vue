@@ -1,9 +1,11 @@
 <template>
   <view class="content">
+    <up-image :show-loading="true" :src="src" width="80px" height="80px" @click="click"></up-image>
     <image class="logo" src="/static/images/appLogo.svg" />
     <view class="text-area">
       <text class="title">{{ title + counter.count }}</text>
       <button @click="counter.increment">+</button>
+      <uni-badge class="uni-badge-left-margin" text="2" type="primary" />
     </view>
   </view>
 </template>
@@ -12,6 +14,10 @@
   import { useCounterStore } from '@/stores'
   const counter = useCounterStore()
   const title = ref('Hello UniApp')
+  const src = ref('/static/images/appLogo.svg')
+  const click = () => {
+    // 点击事件处理逻辑
+  }
 </script>
 
 <style>
