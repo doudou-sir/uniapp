@@ -1149,5 +1149,106 @@ pnpm i -D miniprogram-api-typings
 }
 ~~~
 
+# 17. 使用阿里图标：
 
+~~~scss
+// iconfont.scss
+@font-face {
+  font-family: 'iconfont'; /* Project id 4483279 */
+  src:
+    url('//at.alicdn.com/t/c/font_4483279_x9yaw0nxwv.woff?t=1711456991852') format('woff'),
+    url('//at.alicdn.com/t/c/font_4483279_x9yaw0nxwv.ttf?t=1711456991852') format('truetype'),
+    url('//at.alicdn.com/t/c/font_4483279_x9yaw0nxwv.svg?t=1711456991852#iconfont') format('svg');
+}
+
+[class^='dou-'],
+[class*=' dou-'] {
+  font-family: 'iconfont' !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.dou-email:before {
+  content: '\e621';
+}
+
+.dou-password:before {
+  content: '\e679';
+}
+
+.dou-QQ:before {
+  content: '\e64a';
+}
+
+.dou-phone:before {
+  content: '\e645';
+}
+
+.dou-weixin:before {
+  content: '\e8bb';
+}
+
+.dou-username:before {
+  content: '\e600';
+}
+
+// index.scss
+@import '@/static/styles/iconfont.scss';
+~~~
+
+# 18. unocss 使用：
+
+~~~bash
+pnpm i -D unocss unocss-preset-weapp
+~~~
+
+~~~ts
+// vite.config.ts
+import UnoCSS from 'unocss/vite'
+export default defineConfig({
+  plugins: [
+    UnoCSS(),
+  ],
+})
+~~~
+
+~~~ts
+// uno.config.ts
+// eslint-disable-next-line import/no-named-as-default
+import presetWeapp from 'unocss-preset-weapp'
+import { extractorAttributify, transformerClass } from 'unocss-preset-weapp/transformer'
+
+const { presetWeappAttributify, transformerAttributify } = extractorAttributify()
+
+export default {
+  presets: [
+    // https://github.com/MellowCo/unocss-preset-weapp
+    presetWeapp(),
+    // attributify autocomplete
+    presetWeappAttributify()
+  ],
+  shortcuts: [
+    {
+      'border-base': 'border border-gray-500_10',
+      center: 'flex justify-center items-center'
+    }
+  ],
+
+  transformers: [
+    // https://github.com/MellowCo/unocss-preset-weapp/tree/main/src/transformer/transformerAttributify
+    transformerAttributify(),
+
+    // https://github.com/MellowCo/unocss-preset-weapp/tree/main/src/transformer/transformerClass
+    transformerClass()
+  ]
+}
+
+~~~
+
+~~~ts
+// main.ts
+import 'uno.css'
+~~~
 

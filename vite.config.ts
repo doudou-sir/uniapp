@@ -3,6 +3,7 @@ import uni from '@dcloudio/vite-plugin-uni'
 import eslintPlugin from 'vite-plugin-eslint'
 import viteRestart from 'vite-plugin-restart'
 import autoImport from 'unplugin-auto-import/vite'
+import UnoCSS from 'unocss/vite'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import svgLoader from 'vite-svg-loader'
 import path from 'path'
@@ -11,6 +12,7 @@ import path from 'path'
 export default defineConfig({
   plugins: [
     uni(),
+    UnoCSS(),
     // 配置vite在运行的时候自动检测eslint规范
     eslintPlugin({
       include: ['src/**/*.ts', 'src/**/*.js', 'src/**/*.vue', 'src/*.ts', 'src/*.js', 'src/*.vue']

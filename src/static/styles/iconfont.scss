@@ -1,0 +1,40 @@
+@font-face {
+  font-family: 'iconfont'; /* Project id 4483279 */
+  src:
+    url('//at.alicdn.com/t/c/font_4483279_x9yaw0nxwv.woff?t=1711456991852') format('woff'),
+    url('//at.alicdn.com/t/c/font_4483279_x9yaw0nxwv.ttf?t=1711456991852') format('truetype'),
+    url('//at.alicdn.com/t/c/font_4483279_x9yaw0nxwv.svg?t=1711456991852#iconfont') format('svg');
+}
+
+[class^='dou-'],
+[class*=' dou-'] {
+  font-family: 'iconfont' !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.dou-email:before {
+  content: '\e621';
+}
+
+.dou-password:before {
+  content: '\e679';
+}
+
+.dou-QQ:before {
+  content: '\e64a';
+}
+
+.dou-phone:before {
+  content: '\e645';
+}
+
+.dou-weixin:before {
+  content: '\e8bb';
+}
+
+.dou-username:before {
+  content: '\e600';
+}

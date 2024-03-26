@@ -4,6 +4,7 @@ import App from '@/App.vue'
 import pinia from '@/stores'
 import uviewPlus from 'uview-plus'
 import 'virtual:svg-icons-register'
+import 'uno.css'
 import '@/static/styles/index.scss'
 
 uni.$u.config.unit = 'rpx'
