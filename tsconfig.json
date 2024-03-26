@@ -13,13 +13,19 @@
     "types": [
       "@dcloudio/types",
       "vite-plugin-svg-icons/client",
-      "vite-svg-loader"
+      "vite-svg-loader",
+      "@types/wechat-miniprogram",
+      "@uni-helper/uni-app-types"
     ]
+  },
+  "vueCompilerOptions": {
+    "nativeTags": ["block", "template", "component", "slot"],
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
-    "src/**/*.vue"
+    "src/**/*.vue",
+    "./auto-imports.d.ts"
   ]
 }

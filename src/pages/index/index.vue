@@ -2,17 +2,16 @@
   <view class="content">
     <image class="logo" src="/static/logo.png" />
     <view class="text-area">
-      <text class="title">{{ title }}</text>
-      <!-- <dou-icon name="message" /> -->
-      <MessComponent />
+      <text class="title">{{ title + counter.count }}</text>
+      <button @click="counter.increment">+</button>
     </view>
   </view>
 </template>
 
 <script setup lang="ts">
-  import MessComponent from '../../icons/message.svg?component'
-  import { ref } from 'vue'
-  const title = ref('Hello')
+  import { useCounterStore } from '@/stores'
+  const counter = useCounterStore()
+  const title = ref('Hello UniApp')
 </script>
 
 <style>

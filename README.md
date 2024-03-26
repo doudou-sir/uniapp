@@ -562,3 +562,291 @@ plugins: [
 </script>
 ~~~
 
+## 11. uniapp类型提示：
+
+~~~bash
+# 类型提示
+pnpm i -D @types/wechat-miniprogram @uni-helper/uni-app-types
+# ts类型提示增强
+pnpm i eslint-import-resolver-typescript eslint-plugin-import -D
+~~~
+
+~~~json
+// tsconfig.json
+"compilerOptions": {
+    "types": [
+      "@dcloudio/types",
+      "vite-plugin-svg-icons/client",
+      "vite-svg-loader",
+      "@types/wechat-miniprogram",
+      "@uni-helper/uni-app-types"
+    ]
+  },
+  "vueCompilerOptions": {
+    "nativeTags": ["block", "template", "component", "slot"],
+  },
+~~~
+
+~~~js
+// .eslintrc.cjs
+module.exports = {
+  env: {
+    browser: true,
+    es2021: true,
+    node: true
+  },
+  extends: [
+    'eslint:recommended',
+    'plugin:vue/vue3-essential',
+    'plugin:@typescript-eslint/recommended',
+    // 1. 接入 prettier 的规则
+    'prettier',
+    'plugin:prettier/recommended',
+    'plugin:import/recommended'
+  ],
+  overrides: [
+    {
+      env: {
+        node: true
+      },
+      files: ['.eslintrc.{js,cjs}'],
+      parserOptions: {
+        sourceType: 'script'
+      }
+    }
+  ],
+  // 配置解析vue文件
+  parser: 'vue-eslint-parser',
+  parserOptions: {
+    ecmaVersion: 'latest',
+    parser: '@typescript-eslint/parser',
+    sourceType: 'module'
+  },
+  plugins: [
+    'vue',
+    // 2. 加入 prettier 的 eslint 插件
+    'prettier',
+    '@typescript-eslint',
+    // 3. 加入 import 的 eslint 插件 eslint-import-resolver-typescript
+    'import'
+  ],
+  // 添加规则
+  rules: {
+    'vue/multi-word-component-names': [
+      'error',
+      {
+        ignores: ['index'] //需要忽略的组件名
+      }
+    ],
+    '@typescript-eslint/ban-types': [
+      'error',
+      {
+        extendDefaults: true,
+        types: {
+          '{}': false
+        }
+      }
+    ],
+    'import/no-unresolved': 'off',
+    // 对后缀的检测，否则 import 一个ts文件也会报错，需要手动添加'.ts', 增加了下面的配置后就不用了
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      { js: 'never', jsx: 'never', ts: 'never', tsx: 'never' }
+    ],
+    'no-console': ['off']
+  },
+  // eslint-import-resolver-typescript
+  settings: {
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx']
+    },
+    'import/resolver': {
+      typescript: {}
+    }
+  },
+  globals: {
+    uni: true,
+    UniApp: true,
+    wx: true,
+    WechatMiniprogram: true,
+    getCurrentPages: true,
+    UniHelper: true,
+    Page: true,
+    App: true
+  }
+}
+~~~
+
+~~~json
+option =  {
+   backgroundColor: '#FFFFFF',
+          grid: {
+            containLabel: true,
+            bottom: '5%',
+            top: '20%',
+            left: '25%',
+            right: '25%',
+          },
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'shadow',
+            },
+          },
+          legend: {
+            top: '5%',
+            // right: '6%',
+            data: ['计划', '总结'],
+            itemWidth: 18,
+            itemHeight: 18,
+            itemGap: 30,
+            textStyle: {
+              fontSize: 14,
+              color: '#333',
+              padding: [0, 0, 0, 10],
+            },
+          },
+          xAxis: {
+            // name: "班级",
+            triggerEvent: true,
+            data: ['学业成绩排名','不及格科目', '讲座', '图书借阅', '著作', '专利'],
+            axisLabel: {
+               show: true,
+              fontSize: 10,
+              color: '#565656',
+              rotate: 20, // 设置旋转角度为30度
+              align: 'right', 
+              verticalAlign: 'top',
+            },
+            axisLine: {
+              show: false,
+              lineStyle: {
+                show: false,
+                color: '#565656',
+                width: 2,
+              },
+            },
+
+            axisTick: {
+              show: false,
+            },
+          },
+          yAxis: [
+            {
+              // name: '单位:万',
+              // type: 'value',
+              // nameTextStyle: {
+              //   color: '#444444',
+              // },
+              axisLabel: {
+                interval: 0,
+                show: true,
+                fontSize: 10,
+                color: '#565656',
+              },
+              axisLine: {
+                show: false,
+                // lineStyle: {
+                //   color: "#F3F3F3",
+                //   width: 2
+                // }
+              },
+              axisTick: {
+                show: false,
+              },
+              splitLine: {
+                lineStyle: {
+                  type: 'dashed',
+                  // color: '#565656',
+                },
+              },
+            },
+          ],
+          series: [
+            {
+              name: '计划',
+              type: 'bar',
+              silent: true,
+              itemStyle: {
+                normal: {
+                  color: '#30A5C2',
+                },
+              },
+              label: {
+                show: true,
+                color: '#30A5C2',
+                fontSize: 10,
+                position: 'top', // 显示位置，可选值有 'top', 'bottom', 'inside', 'outside'
+                formatter: '{c}', // 标签内容格式器，这里表示显示数据值
+              },
+              data: [10, 2, 7, 15, 2, 1],
+            },
+            {
+              name: '总结',
+              type: 'bar',
+              silent: true,
+              itemStyle: {
+                normal: {
+                  color: '#95D5B8',
+                },
+              },
+              label: {
+                show: true,
+                color: '#95D5B8',
+                fontSize: 10,
+                position: 'top', // 显示位置，可选值有 'top', 'bottom', 'inside', 'outside'
+                formatter: '{c}', // 标签内容格式器，这里表示显示数据值
+              },
+              data: [6, 4, 9, 13, 0, 0],
+            },
+          ],
+        }
+~~~
+
+# 12. pinia持久化：
+
+~~~bash
+pnpm i pinia@2.0.36 pinia-plugin-persistedstate
+~~~
+
+~~~ts
+// src/stores/modules/useCounterStore.ts
+import { defineStore } from 'pinia'
+
+export const useCounterStore = defineStore(
+  'count',
+  () => {
+    const count = ref(0)
+    const increment = () => {
+      count.value++
+    }
+    return {
+      count,
+      increment
+    }
+  },
+  {
+    persist: true
+  }
+)
+
+// src/stores/index.ts
+import { createPinia } from 'pinia'
+import { createPersistedState } from 'pinia-plugin-persistedstate' // 数据持久化
+
+const store = createPinia()
+store.use(
+  createPersistedState({
+    storage: {
+      getItem: uni.getStorageSync,
+      setItem: uni.setStorageSync
+    }
+  })
+)
+
+export * from './modules/counter'
+
+export default store
+~~~
+
