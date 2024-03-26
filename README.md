@@ -942,13 +942,85 @@ css: {
     preprocessorOptions: {
       scss: {
         // 全局 scss 变量
-        additionalData: `@import "~@/static/styles/index.scss";`
+        additionalData: `@import "@/uni.scss";`
       }
     }
   }
 
 // main.ts
 import '@/static/styles/index.scss'
+~~~
+
+# 14. uview-plus 组件库：
+
+~~~bash
+pnpm install uview-plus
+~~~
+
+~~~ts
+// main.ts
+import uviewPlus from 'uview-plus'
+app.use(uviewPlus)
+// 修改默认单位为rpx
+uni.$u.config.unit = 'rpx'
+~~~
+
+~~~scss
+// uni.scss
+@import 'uview-plus/theme.scss';
+~~~
+
+~~~json
+// pages.json
+"custom": {
+      "^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue",
+      "^up-(.*)": "uview-plus/components/u-$1/u-$1.vue",
+      "^dou-(.*)": "@/components/dou-$1.vue"
+    }
+~~~
+
+~~~ts
+// env.d.ts
+/// <reference types="vite/client" />
+/// <reference types="vite-svg-loader" />
+
+declare module '*.vue' {
+  import { DefineComponent } from 'vue'
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
+  const component: DefineComponent<{}, {}, any>
+  export default component
+}
+
+declare module 'uview-plus'
+~~~
+
+~~~ts
+// 解决 $u 报错的问题
+// 新建 types/index.d.ts
+declare module 'uview-plus' {
+  export function install(): void
+
+  interface test {
+    /** 邮箱格式校验 */
+    email(email: string): boolean
+  }
+  interface $u {
+    config: config
+    props: props
+    test: test
+  }
+
+  global {
+    interface Uni {
+      $u: $u
+    }
+  }
+}
+~~~
+
+~~~scss
+// index.scss
+@import 'uview-plus/index.scss';
 ~~~
 
 
