@@ -1,18 +1,22 @@
 @font-face {
   font-family: 'iconfont'; /* Project id 4483279 */
   src:
-    url('//at.alicdn.com/t/c/font_4483279_99hnv65xxow.woff?t=1711525537929') format('woff'),
-    url('//at.alicdn.com/t/c/font_4483279_99hnv65xxow.ttf?t=1711525537929') format('truetype'),
-    url('//at.alicdn.com/t/c/font_4483279_99hnv65xxow.svg?t=1711525537929#iconfont') format('svg');
+    url('//at.alicdn.com/t/c/font_4483279_rklego55dx.woff2?t=1711527922290') format('woff2'),
+    url('//at.alicdn.com/t/c/font_4483279_rklego55dx.woff?t=1711527922290') format('woff'),
+    url('//at.alicdn.com/t/c/font_4483279_rklego55dx.ttf?t=1711527922290') format('truetype');
 }
 
 [class^='dou-'],
 [class*=' dou-'] {
   font-family: 'iconfont' !important;
-  font-size: 16px;
+  // font-size: 16px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.dou-phone:before {
+  content: '\e635';
 }
 
 .dou-qq:before {
@@ -25,10 +29,6 @@
 
 .dou-password:before {
   content: '\e679';
-}
-
-.dou-phone:before {
-  content: '\e645';
 }
 
 .dou-weixin:before {
