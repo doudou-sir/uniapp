@@ -4,9 +4,11 @@
     "prefix": "v3",
     "body": [
       "<script setup lang=\"ts\"></script>",
+
       "<template>",
       "  <view class=\"\">$1</view>",
       "</template>",
+
       "<style lang=\"scss\"></style>"
     ]
   }

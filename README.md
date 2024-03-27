@@ -1198,6 +1198,63 @@ pnpm i -D miniprogram-api-typings
 @import '@/static/styles/iconfont.scss';
 ~~~
 
+~~~js
+// 使用 symbol 模式，在本地创建 static/iconfont/index.js 
+// main.ts 中引入
+import '@/static/iconfont'
+~~~
+
+~~~vue
+// src/components/dou-svg-icon.vue
+<template>
+  <svg :class="svgClass" aria-hidden="true">
+    <use :xlink:href="iconClassName" :fill="color" />
+  </svg>
+</template>
+
+
+<script setup lang="ts">
+const props = defineProps({
+  iconName: {
+    type: String,
+    required: true
+  },
+  className: {
+    type: String,
+    default: ''
+  },
+  color: {
+    type: String,
+    default: '#626262'
+  }
+});
+// 图标在 iconfont 中的名字
+const iconClassName = computed(()=>{
+  return `#${props.iconName}`;
+})
+// 给图标添加上类名
+const svgClass = computed(() => {
+  if (props.className) {
+    return `svg-icon ${props.className}`;
+  }
+  return 'svg-icon';
+});
+</script>
+
+
+<style scoped lang='scss'>
+.svg-icon {
+  width: 1em;
+  height: 1em;
+  position: relative;
+  fill: currentColor;
+  vertical-align: -0.1em;
+}
+</style>
+~~~
+
+
+
 # 18. unocss 使用：
 
 ~~~bash
@@ -1250,5 +1307,41 @@ export default {
 ~~~ts
 // main.ts
 import 'uno.css'
+~~~
+
+# 19. px to rpx：
+
+~~~bash
+pnpm install postcss-pxtorpx-pro -D
+~~~
+
+~~~ts
+// px转rpx
+import PxToRpx from 'postcss-pxtorpx-pro'
+// https://vitejs.dev/config/
+export default defineConfig({
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // 全局 scss 变量
+        additionalData: `@import "@/uni.scss";`
+      }
+    },
+    postcss: {
+      plugins: [
+        PxToRpx({
+          unit: 'rpx',
+          propList: ['*'],
+          unitPrecision: 5,
+          selectorBlackList: ['no-px'],
+          replace: true,
+          mediaQuery: false,
+          minPixelValue: 0,
+          transform: (x: number) => 2 * x
+        })
+      ]
+    }
+  }
+});
 ~~~
 

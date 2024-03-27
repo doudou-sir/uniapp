@@ -4,6 +4,8 @@ import eslintPlugin from 'vite-plugin-eslint'
 import viteRestart from 'vite-plugin-restart'
 import autoImport from 'unplugin-auto-import/vite'
 import UnoCSS from 'unocss/vite'
+// px转rpx
+import PxToRpx from 'postcss-pxtorpx-pro'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import svgLoader from 'vite-svg-loader'
 import path from 'path'
@@ -78,6 +80,20 @@ export default defineConfig({
         // 全局 scss 变量
         additionalData: `@import "@/uni.scss";`
       }
+    },
+    postcss: {
+      plugins: [
+        PxToRpx({
+          unit: 'rpx',
+          propList: ['*'],
+          unitPrecision: 5,
+          selectorBlackList: ['no-px'],
+          replace: true,
+          mediaQuery: false,
+          minPixelValue: 0,
+          transform: (x: number) => 2 * x
+        })
+      ]
     }
   }
 })
