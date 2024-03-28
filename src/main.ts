@@ -2,6 +2,7 @@ import { createSSRApp } from 'vue'
 import App from '@/App.vue'
 import pinia from '@/stores'
 import '@/static/styles/index.scss'
+import '@/static/styles/wot.css'
 // import { pxToRpx, rpxToPx } from '@/utils/helper'
 
 // import 'uno.css'

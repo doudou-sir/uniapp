@@ -11,6 +11,8 @@
       refresher-enabled
       class="dou-flex-1 dou-overflow-hidden"
     >
+      <wd-button type="error">主要按钮</wd-button>
+
       <uni-card v-for="item in 100" :key="item">
         <text class="ellipsis-1">
           这是一个基础卡片示例，内容较少，此示例展示了一个没有任何属性不带阴影的卡片。

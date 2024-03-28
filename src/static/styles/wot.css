@@ -1,0 +1,8 @@
+/* 覆盖 wot-design-uni 默认样式 */
+:root,
+page {
+  --wot-color-theme: #007aff;
+  --wot-color-success: #4cd964;
+  --wot-color-warning: #8e785a;
+  --wot-button-error-bg-color: #7b4e4c;
+}

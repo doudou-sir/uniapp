@@ -978,6 +978,19 @@ export function rpxToPx(rpx: string): number {
 <!-- go-navbar/go-navbar.vue 自定义头部导航栏组件 -->
 ~~~
 
+~~~json
+// 在 pages.json 中提供自动引入
+// 组件自动导入
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      // uni-ui 规则如下配置
+      "^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue",
+      // 自定义组件
+      "^go-(.*)": "@/components/go-$1/go-$1.vue"
+    }
+~~~
+
 ~~~vue
 <!-- 创建 pages/index/components/ 用于放置首页组件模块 -->
 <!-- Header.vue -->
@@ -1129,11 +1142,92 @@ export * from './modules/system'
 </script>
 ~~~
 
-# 21. uview-ui 使用：
-
-官网：https://www.uviewui.com/；
+# 21. 组件库使用：
 
 ~~~bash
-pnpm install uview-ui@2.0.36
+# 有两款组件库 uv-ui 和 wot-design-uni
+# https://www.uvui.cn/
+# https://wot-design-uni.gitee.io/
+# uv-ui 是 js 写的，并非 ts，可以通过 ttou/uv-typings 提供类型支持，但好像不太灵活的样子
+# wot-design-uni 是 ts 写的，对于使用 ts 编码的体验会好很多
+pnpm i wot-design-uni
+~~~
+
+~~~json
+// pages.json
+{
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+		  "^wd-(.*)": "wot-design-uni/components/wd-$1/wd-$1.vue"
+		}
+	},
+	
+	// 此为本身已有的内容
+	"pages": [
+		// ......
+	]
+}
+
+// tsconfig.json
+{
+  "compilerOptions": {
+    "types": [
+        "wot-design-uni/global.d.ts" // wot-design-uni 组件类型
+    ]
+  }
+}
+~~~
+
+~~~vue
+// 自定义主题 通过 TS
+<script setup lang="ts">
+  import Header from './components/Header.vue'
+  import type { ConfigProviderThemeVars } from 'wot-design-uni'
+  const themeVars: ConfigProviderThemeVars = {
+    buttonSuccessBgColor: '#007aff'
+  }
+</script>
+
+<template>
+  <view class="dou-flex dou-flex-col dou-h-full">
+    <Header />
+    <scroll-view
+      enable-back-to-top
+      scroll-y
+      refresher-enabled
+      class="dou-flex-1 dou-overflow-hidden"
+    >
+      <wd-config-provider :theme-vars="themeVars">
+        <wd-button type="success">主要按钮</wd-button>
+      </wd-config-provider>
+
+      <uni-card v-for="item in 100" :key="item">
+        <text class="ellipsis-1">
+          这是一个基础卡片示例，内容较少，此示例展示了一个没有任何属性不带阴影的卡片。
+        </text>
+      </uni-card>
+    </scroll-view>
+  </view>
+</template>
+~~~
+
+~~~css
+/* 通过 css变量 覆盖默认样式 */
+/* styles/wot.css */
+/* 覆盖 wot-design-uni 默认样式 */
+/* 覆盖 wot-design-uni 默认样式 */
+:root,
+page {
+  --wot-color-theme: #007aff;
+  --wot-color-success: #4cd964;
+  --wot-color-warning: #8e785a;
+  --wot-button-error-bg-color: #7b4e4c;
+}
+~~~
+
+~~~ts
+// main.ts
+import '@/static/styles/wot.css'
 ~~~
 
