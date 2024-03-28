@@ -1,43 +1,33 @@
 {
   "extends": "@vue/tsconfig/tsconfig.json",
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "strict": true,
-    "jsx": "preserve",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
     "sourceMap": true,
-    "skipLibCheck": true,
-    "importHelpers": true,
-    "allowSyntheticDefaultImports": true,
-    "useDefineForClassFields": true,
-    "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
-    "lib": [
-      "esnext",
-      "dom"
-    ],
+    "lib": ["esnext", "dom"],
     "types": [
       "@dcloudio/types", // uni-app API 类型
-      // "vite-plugin-svg-icons/client",
-      // "vite-svg-loader",
-      "miniprogram-api-typings", // 微信小程序 API 类型
+      "miniprogram-api-typings", // 原生微信小程序类型
       "@uni-helper/uni-app-types", // uni-app 组件类型
       "@uni-helper/uni-ui-types" // uni-ui 组件类型
     ]
   },
+  // vue 编译器类型，校验标签类型
   "vueCompilerOptions": {
-    "nativeTags": ["block", "template", "component", "slot"],
+    "nativeTags": ["block", "component", "template", "slot"]
   },
+  // 编译器排除的文件
   "include": [
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "./auto-imports.d.ts"
+    "src/*.vue",
+    "src/*.ts",
+    "src/*.d.ts",
+    "src/*.tsx",
+    "src/typing/*.d.ts"
   ]
 }

@@ -1,19 +1,17 @@
 import { createSSRApp } from 'vue'
 import App from '@/App.vue'
-// import gloablComponents from './components/index'
 import pinia from '@/stores'
-import uviewPlus from 'uview-plus'
-import 'virtual:svg-icons-register'
-import 'uno.css'
 import '@/static/styles/index.scss'
+// import { pxToRpx, rpxToPx } from '@/utils/helper'
 
-uni.$u.config.unit = 'rpx'
+// import 'uno.css'
 
 export function createApp() {
   const app = createSSRApp(App)
-  // app.use(gloablComponents)
   app.use(pinia)
-  app.use(uviewPlus)
+  // 全局挂载单位转换函数
+  // app.config.globalProperties.$pxToRpx = pxToRpx
+  // app.config.globalProperties.$rpxToPx = rpxToPx
   return {
     app
   }

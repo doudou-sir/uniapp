@@ -12,20 +12,19 @@
  * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
  */
 
-@import 'uview-plus/theme.scss';
 /* 颜色变量 */
 
 /* 行为相关颜色 */
-$uni-color-primary: #167cf8;
+$uni-color-primary: #007aff;
 $uni-color-success: #4cd964;
 $uni-color-warning: #f0ad4e;
 $uni-color-error: #dd524d;
 
 /* 文字基本颜色 */
-$uni-text-color: #2f2f2f; // 基本色
+$uni-text-color: #333; // 基本色
 $uni-text-color-inverse: #fff; // 反色
 $uni-text-color-grey: #999; // 辅助灰色，如加载更多的提示信息
-$uni-text-color-placeholder: #626262;
+$uni-text-color-placeholder: #808080;
 $uni-text-color-disable: #c0c0c0;
 
 /* 背景颜色 */

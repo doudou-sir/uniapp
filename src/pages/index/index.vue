@@ -1,47 +1,23 @@
+<script setup lang="ts">
+  import Header from './components/Header.vue'
+</script>
+
 <template>
-  <view class="content">
-    <up-image :show-loading="true" :src="src" width="80px" height="80px" @click="click"></up-image>
-    <image class="logo" src="/static/images/appLogo.svg" />
-    <view class="text-area">
-      <text class="title">{{ title + counter.count }}</text>
-      <button @click="counter.increment">+</button>
-      <uni-badge class="uni-badge-left-margin" text="2" type="primary" />
-    </view>
+  <view class="dou-flex dou-flex-col dou-h-full">
+    <Header />
+    <scroll-view
+      enable-back-to-top
+      scroll-y
+      refresher-enabled
+      class="dou-flex-1 dou-overflow-hidden"
+    >
+      <uni-card v-for="item in 100" :key="item">
+        <text class="ellipsis-1">
+          这是一个基础卡片示例，内容较少，此示例展示了一个没有任何属性不带阴影的卡片。
+        </text>
+      </uni-card>
+    </scroll-view>
   </view>
 </template>
 
-<script setup lang="ts">
-  import { useCounterStore } from '@/stores'
-  const counter = useCounterStore()
-  const title = ref('Hello UniApp')
-  const src = ref('/static/images/appLogo.svg')
-  const click = () => {
-    // 点击事件处理逻辑
-  }
-</script>
-
-<style>
-  .content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  .logo {
-    height: 200rpx;
-    width: 200rpx;
-    margin-top: 200rpx;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 50rpx;
-  }
-  .text-area {
-    display: flex;
-    justify-content: center;
-  }
-
-  .title {
-    font-size: 36rpx;
-    color: #8f8f94;
-  }
-</style>
+<style lang="scss"></style>

@@ -1,7 +1,8 @@
-// eslint-disable-next-line import/no-named-as-default
-import presetWeapp from 'unocss-preset-weapp'
+import PresetWeapp from 'unocss-preset-weapp'
 import { extractorAttributify, transformerClass } from 'unocss-preset-weapp/transformer'
 import { defineConfig } from 'unocss'
+
+const prefix = 'dou-'
 
 const transformRules = {
   '.': '-d111-',
@@ -19,17 +20,24 @@ const transformRules = {
 }
 
 const { presetWeappAttributify, transformerAttributify } = extractorAttributify({
-  transformRules
+  transformRules,
+  classPrefix: prefix
 })
 
 export default defineConfig({
   presets: [
     // https://github.com/MellowCo/unocss-preset-weapp
-    presetWeapp({
-      transformRules
+    PresetWeapp({
+      transformRules,
+      prefix
     }),
     // attributify autocomplete
     presetWeappAttributify()
+  ],
+  shortcuts: [
+    {
+      'dou-center': 'dou-flex dou-justify-center dou-items-center'
+    }
   ],
   transformers: [
     // options 见https://github.com/MellowCo/unocss-preset-weapp/tree/main/src/transformer/transformerAttributify
