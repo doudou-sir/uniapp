@@ -1,6 +1,6 @@
 import PresetWeapp from 'unocss-preset-weapp'
 import { extractorAttributify, transformerClass } from 'unocss-preset-weapp/transformer'
-import { defineConfig } from 'unocss'
+import { defineConfig, presetIcons } from 'unocss'
 
 const prefix = 'dou-'
 
@@ -32,7 +32,15 @@ export default defineConfig({
       prefix
     }),
     // attributify autocomplete
-    presetWeappAttributify()
+    presetWeappAttributify(),
+    presetIcons({
+      collections: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        carbon: () => import('@iconify-json/carbon').then((i) => i.icons as any),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        antDesign: () => import('@iconify-json/ant-design').then((i) => i.icons as any)
+      }
+    })
   ],
   shortcuts: [
     {

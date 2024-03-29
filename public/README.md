@@ -1240,7 +1240,6 @@ pnpm i -D @ttou/uv-typings
 
 ~~~json
 // tsconfig.json
-
 {
   "compilerOptions": {
     "types": [
@@ -1348,6 +1347,78 @@ declare module '@climblee/uv-ui' {
     }
   }
 }
+~~~
+
+# 22. uno icons 图标库的使用：
+
+- 官网：https://icones.js.org/
+- unocss：https://alfred-skyblue.github.io/unocss-docs-cn/presets/icons
+
+~~~bash
+# 安装格式如下： pnpm i -D @iconify-json/[the-collection-you-want]
+pnpm i -D @iconify-json/ant-design @unocss/preset-icons @iconify-json/carbon
+~~~
+
+~~~ts
+// unocss.config.ts
+import { defineConfig, presetIcons } from 'unocss'
+export default defineConfig({
+  presets: [
+    ...
+    presetIcons({
+      collections: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        carbon: () => import('@iconify-json/carbon').then((i) => i.icons as any),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        antDesign: () => import('@iconify-json/ant-design').then((i) => i.icons as any)
+      }
+    })
+  ]
+})
+
+// 当然presetIcons中的配置不止collections,collections中配置我们安装的carbon图标库，并且动态引入carbon包下的json（这个json存放的就是每一个图标的样式）
+export interface Options {
+  scale?: number // 缩放倍数 默认为1
+  mode?: 'mask' | 'background-img' | 'auto'  // 模式 默认auto
+  prefix?: string // 使用前缀 默认 `i-`
+  warn?: boolean
+  collections?: Record<string, IconifyJSON | undefined | (() => Awaitable<IconifyJSON | undefined>)>
+  extraProperties?: Record<string, string> // 核外的属性，你可以书写额外的css属性到图标组件上
+  /**
+   * Rule layer
+   * @default 'icons'
+   */
+  layer?: string
+}
+~~~
+
+~~~vue
+// 使用
+<button class="i-carbon-moon dou-text-100" />
+      <view class="i-ant-design:weibo-circle-outlined dou-text-red-500 dou-text-100" />
+// 试了下，只能在这两个标签使用在别的标签使用不显示
+~~~
+
+# 23. 环境配置：
+
+~~~bash
+# .env
+# 主机地址
+VITE_HOST=0.0.0.0
+# 端口号
+VITE_PORT=3001
+
+# 获取环境变量
+process.env.NODE_ENV          // 应用运行的模式，比如vite.config.ts里
+import.meta.env.VITE_HTTP     // src下的vue文件或其他ts文件里
+~~~
+
+~~~ts
+// vite.config.ts
+build: {
+    // 开发阶段启用源码映射：https://uniapp.dcloud.net.cn/tutorial/migration-to-vue3.html#需主动开启-sourcemap
+    sourcemap: process.env.NODE_ENV === 'development'
+  },
 ~~~
 
 

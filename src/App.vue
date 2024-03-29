@@ -20,14 +20,12 @@
       // 获取屏幕信息
       const { statusBarHeight, screenWidth } = uni.getWindowInfo()
       // 获取胶囊按钮信息
-      /* #ifdef H5 */
       const { top, bottom, height, left, width } = uni.getMenuButtonBoundingClientRect()
       statusNavHeight.value = statusBarHeight
       headerHeight.value = bottom + (top - statusBarHeight)
       leftBlankArea.value = left
       navHeight.value = height + (top - statusBarHeight) * 2
       rightBlankArea.value = screenWidth - left - width
-      /* #endif */
       systemStore.setSystemInfo({
         statusNavHeight: statusNavHeight.value,
         headerHeight: headerHeight.value,
