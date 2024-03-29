@@ -1418,7 +1418,25 @@ import.meta.env.VITE_HTTP     // src下的vue文件或其他ts文件里
 build: {
     // 开发阶段启用源码映射：https://uniapp.dcloud.net.cn/tutorial/migration-to-vue3.html#需主动开启-sourcemap
     sourcemap: process.env.NODE_ENV === 'development'
-  },
+  }
+
+// 状态栏颜色
+onReady() {
+			//动态修改状态栏的颜色
+			uni.setNavigationBarColor({
+				frontColor: '#000000',
+				backgroundColor: '#ff0000'
+			})
+		}
+
+{
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "首页",
+        "navigationStyle": "custom", // 去除原生导航栏
+        "navigationBarTextStyle":"white" //状态栏字体颜色
+      }
+    }
 ~~~
 
 

@@ -19,7 +19,8 @@
       "path": "pages/index/index",
       "style": {
         "navigationBarTitleText": "首页",
-        "navigationStyle": "custom" // 去除原生导航栏
+        "navigationStyle": "custom", // 去除原生导航栏
+        "navigationBarTextStyle":"white" //状态栏字体颜色
       }
     },
     {
