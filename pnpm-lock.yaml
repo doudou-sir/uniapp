@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@climblee/uv-ui':
+    specifier: ^1.1.20
+    version: 1.1.20
   '@dcloudio/uni-app':
     specifier: 3.0.0-alpha-3081220230802001
     version: 3.0.0-alpha-3081220230802001(@dcloudio/types@3.4.8)(postcss@8.4.38)(vue@3.4.21)
@@ -88,6 +91,9 @@ devDependencies:
   '@rushstack/eslint-patch':
     specifier: ^1.9.0
     version: 1.9.0
+  '@ttou/uv-typings':
+    specifier: ^1.10.2
+    version: 1.10.2
   '@types/node':
     specifier: ^18.11.9
     version: 18.19.26
@@ -1398,6 +1404,10 @@ packages:
   /@bcoe/v8-coverage@0.2.3:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
+
+  /@climblee/uv-ui@1.1.20:
+    resolution: {integrity: sha512-jkyesHJsPJkF4Nap9ZmG1/ibKlxXA5M8+ntqKXwwloIsYSYL5SOKb0gyPj17aBOU1PkJpmeiZ8PwnTolhK2/HA==}
+    dev: false
 
   /@dcloudio/types@3.4.8:
     resolution: {integrity: sha512-IPXuoghLv7qNPOnRuP7vC5++MdRHhE0U7EMw9ia//uOh69fFXZiRTfoHd51+nzciD6R50gqYhbrCCZIxnxhM9Q==}
@@ -3256,6 +3266,10 @@ packages:
   /@tootallnate/once@1.1.2:
     resolution: {integrity: sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==}
     engines: {node: '>= 6'}
+    dev: true
+
+  /@ttou/uv-typings@1.10.2:
+    resolution: {integrity: sha512-aGXUWIuYjqA3dvWXWkrOO1T5yUHZqiXOGNR3sEl37s2xdlUlqXIbP2PMeDnP9fNMyJfemgSX5FZrlfKbYk6ypg==}
     dev: true
 
   /@types/babel__core@7.20.5:

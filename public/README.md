@@ -1231,3 +1231,124 @@ page {
 import '@/static/styles/wot.css'
 ~~~
 
+~~~bash
+# uv-ui 使用
+pnpm i @climblee/uv-ui
+# 类型提示
+pnpm i -D @ttou/uv-typings
+~~~
+
+~~~json
+// tsconfig.json
+
+{
+  "compilerOptions": {
+    "types": [
+      "@ttou/uv-typings/v3" // uv 类型
+    ]
+  }
+}
+~~~
+
+~~~scss
+// 在 uni.scss 中引入 uv 样式相关
+/* uv-ui默认样式 */
+// @import '@climblee/uv-ui/theme.scss';
+/* uv-ui自定义样式 */
+@import '@/static/styles/uv.scss';
+
+// 引入 uv 基础样式 在 App.vue 中
+<style lang="scss">
+  @import '@climblee/uv-ui/index.scss';
+</style>
+~~~
+
+~~~ts
+// main.ts
+import { createSSRApp } from 'vue'
+import App from '@/App.vue'
+import pinia from '@/stores'
+import uvUI from '@climblee/uv-ui'
+import '@/static/styles/index.scss'
+import '@/static/styles/wot.css'
+// import { pxToRpx, rpxToPx } from '@/utils/helper'
+
+// import 'uno.css'
+
+export function createApp() {
+  const app = createSSRApp(App)
+  app.use(pinia)
+  // #ifdef VUE3
+  app.use(uvUI)
+  // #endif
+  // 需要在Vue.use(uvUI)之后执行
+  uni.$uv.setConfig({
+    // 修改$uv.config对象的属性
+    config: {
+      // 修改默认单位为rpx，相当于执行 uni.$uv.config.unit = 'rpx'
+      unit: 'rpx'
+    },
+    // 修改$uv.props对象的属性
+    props: {
+      // 修改uv-text组件的size参数的默认值，注意：默认值都要用default声明
+      text: {
+        color: {
+          default: 'red'
+        }
+      }
+      // 其他组件属性配置，具体的参数名称可以去每个组件的props.js中进行查看
+      // ......
+    }
+  })
+  // 全局挂载单位转换函数
+  // app.config.globalProperties.$pxToRpx = pxToRpx
+  // app.config.globalProperties.$rpxToPx = rpxToPx
+  return {
+    app
+  }
+}
+~~~
+
+~~~ts
+// 修复报错问题
+// env.d.ts 修复 import uvUI from '@climblee/uv-ui' 报红
+/// <reference types="vite/client" />
+
+declare module '*.vue' {
+  import { DefineComponent } from 'vue'
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
+  const component: DefineComponent<{}, {}, any>
+  export default component
+}
+
+declare module '@climblee/uv-ui'
+
+// 修复 $uv 报红
+// 新建 types/uv.d.ts
+declare module '@climblee/uv-ui' {
+  export function install(): void
+
+  interface config {
+    // 单位
+    unit: string
+  }
+
+  interface props {
+    // text
+    text: object
+  }
+  interface $uv {
+    config: config
+    props: props
+  }
+
+  global {
+    interface Uni {
+      $uv: $u
+    }
+  }
+}
+~~~
+
+
+

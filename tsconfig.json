@@ -12,7 +12,8 @@
       "miniprogram-api-typings", // 原生微信小程序类型
       "@uni-helper/uni-app-types", // uni-app 组件类型
       "@uni-helper/uni-ui-types", // uni-ui 组件类型
-      "wot-design-uni/global.d.ts" // wot-design-uni 组件类型
+      "wot-design-uni/global.d.ts", // wot-design-uni 组件类型
+      "@ttou/uv-typings/v3" // uv 类型
     ]
   },
   // vue 编译器类型，校验标签类型
