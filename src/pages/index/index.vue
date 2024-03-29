@@ -11,7 +11,8 @@
       refresher-enabled
       class="dou-flex-1 dou-overflow-hidden"
     >
-      <uv-button type="primary" text="确定"></uv-button>
+      <uv-button type="success" text="确定"></uv-button>
+      <uv-text type="primary" text="主色"></uv-text>
 
       <uni-card v-for="item in 100" :key="item">
         <text class="uv-line-1">
