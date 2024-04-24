@@ -1439,5 +1439,236 @@ onReady() {
     }
 ~~~
 
+# 24. 分包加载机制：
 
+- [subpackages 文档](https://uniapp.dcloud.net.cn/collocation/pages.html#subpackages)
+
+~~~json
+// 已我的界面为例，点击扫码图标会跳转到扫码界面 scanQR ，点击头像信息会跳转到用户详情 userInfo ，点击通知图标会跳转到消息通知界面 notification
+// 创建 src/pagesMy 我的界面下的分包 且分包下可放置分包下的页面静态文件
+// pages.json
+"subPackages": [
+    {
+      "root": "myPages",
+      "pages": [
+        {
+          "path": "userInfo/index",
+          "style": {
+            "navigationBarTitleText": "个人信息"
+          }
+        },
+        {
+          "path": "scanQR/index",
+          "style": {
+            "navigationBarTitleText": "扫码登录",
+            "navigationStyle": "custom"
+            // "navigationBarTextStyle":"white"
+          }
+        },
+        {
+          "path": "notification/index",
+          "style": {
+            "navigationBarTitleText": "消息通知",
+            "navigationStyle": "custom"
+            // "navigationBarTextStyle":"white"
+          }
+        }
+      ]
+    }
+  ],
+  "preloadRule": {
+    "pages/my/my": {
+      "network": "all",
+      "packages": ["myPages"]
+    }
+  },
+~~~
+
+# 25. 在 style 中使用 unocss 样式：
+
+- [相关文档](https://github.com/unocss/unocss/blob/main/packages/transformer-directives/README.md#apply)
+
+~~~bash
+pnpm i -D @unocss/transformer-directives
+~~~
+
+~~~ts
+// unocss.config.ts
+import { defineConfig } from 'unocss'
+import transformerDirectives from '@unocss/transformer-directives'
+
+export default defineConfig({
+  // ...
+  transformers: [
+    transformerDirectives() as any,
+  ],
+})
+~~~
+
+~~~scss
+.card {
+    @apply d-w-95% d-h-337 d-bg-#222426 d-mb-24rpx d-b-rd-16rpx d-overflow-hidden;
+    &_top {
+      @apply d-flex d-px-24rpx d-items-center d-justify-between d-w-100% d-h-64 d-bg-#2E3033 d-text-#838B99 d-text-26;
+    }
+  }
+~~~
+
+# 26. 通过 shortcuts 设置统一的样式：
+
+~~~ts
+// unocss.config.ts
+export default defineConfig({
+  // ...
+  shortcuts: [
+    {
+      'd-full': 'd-w-full d-h-full',
+      'd-center': 'd-middle-justify d-items-center',
+      'd-middle-justify': 'd-flex d-justify-center',
+      'd-between': 'd-middle-items d-justify-between',
+      'd-around': 'd-middle-items d-justify-around',
+      'd-middle-items': 'd-flex d-items-center',
+      'd-center-full': 'd-center d-full',
+      'd-col': 'd-flex d-flex-col'
+    }
+  ]
+  // ...
+})
+~~~
+
+# 27. 改为 npm 作为包管理工具：
+
+~~~bash
+# 将依赖删除和删除 pnpm-lock.yaml，因为官方建议使用 npm 或 yarn 作为包管理工具，使用 pnpm 会造成部分组件无法使用的问题
+
+$ nvm ls # 查看当前node版本
+$ nvm install 18.20.0 # 安装高版本node
+$ nvm use 18.20.0 # 使用
+$ nvm uninstall 18.16.0 # 删除之前的版本
+$ nrm ls # 查看 npm 镜像
+~~~
+
+# 28. 对大于 200kb 本地资源的处理：
+
+- [在线转码工具](https://tool.chinaz.com/tools/imgtobase/)
+
+~~~scss
+// 在 static/styles 新建 my-bg-base64.scss 
+$my-bg-base64-code: url('转换后的编码文本');
+
+// 在 uni.scss 下导入
+// base64 大于 200kb 图片
+@import '@/static/styles/my-bg-base64.scss';
+
+// 在 my.vue 下使用
+<style scoped lang="scss">
+  .my_bg {
+    background: $my-bg-base64-code;
+  }
+</style>
+// 还是尽量少用
+~~~
+
+# 29. 跨分包自定义组件引用：
+
+- https://blog.csdn.net/m0_65894854/article/details/129990505
+
+~~~json
+// manifest.json
+{
+    "mp-weixin": { /* 微信小程序特有相关 */
+        "optimization": {
+            // 开启分包
+            "subPackages": true
+        },
+        "appid": "",
+        "setting": {
+            "urlCheck": false
+        },
+        "usingComponents": true
+    },
+}
+
+├── App.vue
+├── main.js
+├── manifest.json
+├── pages.json
+├── uni.scss
+├── packageA     
+├── pages
+    ├── index
+
+// pages.json
+{
+    "pages": [...],
+    "subPackages": [{
+        "root": "packageA",
+        "pages": [...]
+    }],
+    "globalStyle": [...],
+}
+                    
+                    {
+    "pages": [{
+        "path": "pages/index",
+        "style": {
+              "navigationBarTitleText": "uni-app",
+               // 4.设置占位组件
+               "componentPlaceholder": {
+                    // "其他分包自定义组件": "占位组件"
+                   "package-com": "view"
+               }
+         }
+ 
+     }],
+    "subPackages": [...],
+    "globalStyle": [...],
+}
+
+// 将自定义组件的引入规则改下
+"^dou-(.*)": "@/components/dou/dou-$1/dou-$1.vue"
+~~~
+
+# 30. 使用 scss 混入函数 @mixin：
+
+~~~scss
+// 新建 static/styles/mixin.scss
+// 几行省略
+@mixin get-text-ellipsis-($line) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: $line;
+  -webkit-box-orient: vertical;
+  // 添加省略号
+  &::after {
+    content: '...';
+    font-weight: bold;
+  }
+}
+
+// 在 uni.scss 下导入
+// 混入函数
+@import '@/static/styles/mixin.scss';
+
+// 使用
+<style scoped lang="scss">
+  .script_introduce {
+    @include get-text-ellipsis-(2);
+  }
+</style>
+
+// 拓展：继承
+%border-style {
+  border:1px solid #aaa;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+// 使用
+.container {
+	@extend %border-style;
+}
+~~~
 

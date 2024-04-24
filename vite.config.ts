@@ -57,7 +57,7 @@ export default defineConfig({
     // 开启hmr
     hmr: true,
     // 端口号
-    port: 3001,
+    port: 3006,
     // 自定义代理规则
     proxy: {
       // 选项写法

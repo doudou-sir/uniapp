@@ -1,8 +1,10 @@
 import PresetWeapp from 'unocss-preset-weapp'
 import { extractorAttributify, transformerClass } from 'unocss-preset-weapp/transformer'
 import { defineConfig, presetIcons } from 'unocss'
+// npm i -D @unocss/transformer-directives 在 style 中使用 unocss 样式
+import transformerDirectives from '@unocss/transformer-directives'
 
-const prefix = 'dou-'
+const prefix = 'd-'
 
 const transformRules = {
   '.': '-d111-',
@@ -36,20 +38,21 @@ export default defineConfig({
     presetIcons({
       collections: {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        carbon: () => import('@iconify-json/carbon').then((i) => i.icons as any),
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        antDesign: () => import('@iconify-json/ant-design').then((i) => i.icons as any)
+        carbon: () => import('@iconify-json/carbon').then((i) => i.icons as any)
       }
     })
   ],
   shortcuts: [
     {
-      'dou-center': 'dou-flex dou-justify-center dou-items-center'
+      'd-center': 'd-flex d-justify-center d-items-center'
     }
   ],
   transformers: [
     // options 见https://github.com/MellowCo/unocss-preset-weapp/tree/main/src/transformer/transformerAttributify
     transformerAttributify(),
+
+    // options 见https://github.com/MellowCo/unocss-preset-weapp/tree/main/src/transformer/transformerDirectives
+    transformerDirectives() as any,
 
     // options 见https://github.com/MellowCo/unocss-preset-weapp/tree/main/src/transformer/transformerClass
     transformerClass({
