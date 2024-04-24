@@ -5,12 +5,10 @@
     "custom": {
       // uni-ui 规则如下配置
       "^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue",
-      // wot-design-uni
-      "^wd-(.*)": "wot-design-uni/components/wd-$1/wd-$1.vue",
       // uv-ui
       "^uv-(.*)": "@climblee/uv-ui/components/uv-$1/uv-$1.vue",
       // 自定义组件
-      "^go-(.*)": "@/components/go-$1/go-$1.vue"
+      "^dou-(.*)": "@/components/dou/dou-$1/dou-$1.vue"
     }
   },
   "pages": [
